@@ -84,8 +84,8 @@ def _compile_circuit_impl(ctx):
         name + ".r1cs",
     ]
     if ctx.attr.generate_c:
-        outputs.append(_c_srcs(name))
-        outputs.append(_c_data(name))
+        outputs += _c_srcs(name)
+        outputs += _c_data(name)
     if ctx.attr.generate_wasm:
         outputs.append(name + "_js/" + name + ".wasm")
     if ctx.attr.generate_sym:
@@ -138,7 +138,7 @@ compile_circuit = rule(
         "main": attr.label(mandatory = True, allow_single_file = [".circom"]),
         "includes": attr.string_list(),
         "deps": attr.label_list(providers = [CircomInfo]),
-        "generate_c": attr.bool(doc = "Compiles the circuit to C", default=True),
+        "generate_c": attr.bool(doc = "Compiles the circuit to C", default = True),
         "generate_wasm": attr.bool(doc = "Compiles the circuit to WASM"),
         "generate_sym": attr.bool(doc = "Outputs witness in sym format"),
         "O0": attr.bool(doc = "No simplification is applied"),
